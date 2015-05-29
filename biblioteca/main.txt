@@ -1,0 +1,17 @@
+import train ##importa um codigo
+def main()
+	func_train1(0)##chama funcoes de outro codigo
+	func_train2(a,d)
+
+if __name__ =="__main__":
+	main()
+
+class class:
+	def __init__(column,value)
+	column.Twet= value
+	column.Tset=0
+	column.Load=[]
+variable1= class(7)
+
+print variable1.Twet
+[out]: 7

@@ -1,0 +1,90 @@
+index
+
+data = data.set_index('a') #column a become index
+df = df.reindex(array) 
+df.index = pd.to_datetime(df.index,unit='s')#transform to datetime.
+df.reset_index(level=) multiple index
+df['NewColumn']= df.index # it add a NewColumn with values of the index.
+df.loc['2014-06-18 21:55:00',names[0]]
+df.describe() give some statistics
+df =df.drop(['Reference','Year','Status'],1) DEL COLUMNS
+Changing Columns
+del df['column'] # Delete column
+df['ctime'] = df['ctime'].astype(int)
+1)	Pandas.Series()
+One-dimensional ndarray with axis labels (including time series).
+2)	Panda.DataFrame()
+Example:
+import pandas as pd
+import numpy as np
+df = pd.DataFrame(np.random.randn(5, 3), index=['a', 'c', 'e', 'f', 'h'],columns=['one', 'two', 'three'])
+print df
+        one       two     three
+a  0.535140    0.643618  -0.843511
+c -1.082172    -0.113564   0.068054
+e  0.896640    0.845690  -0.136934
+f  0.822247   -0.417680   1.959934
+h  1.211226    1.461598  -1.589407
+PS: Numpy.random.randn(d0, d1, ..., dn) returns a sample (or samples) from the “standard normal” distribution.
+3)	interpolate([method, axis, limit, inplace, ...])	
+Interpolate values according to different methods.
+Example:
+s = pd.Series([0, 1, np.nan, 3])
+print s
+x=s.interpolate()
+print x
+Out:
+0     0
+1     1
+2   NaN
+3     3
+dtype: float64
+0    0
+1    1
+2    2
+3    3
+dtype: float64
+4)	Values considered “missing”
+To make detecting missing values easier (and across different array dtypes), pandas provides the isnull() and notnull() functions, which are also methods on Series objects.
+5)	df.head() and df.tale() : See the top & bottom rows of the frame
+6)	df.index: In a class of DateTime, it returns the length, the period and the time zone.
+7)	df.columns: it returns the index of each column.
+8)	df.values: it returns the array of the Data Frame.
+9)	df.T: It transpose the Data
+10)	df.sort_index(axis, ascending): It sorts by an axis.
+11)	df.sort(columns=’ ‘):It sorts by a column.
+12)	df.iloc[position]: it selects by position
+13)	add_prefix(prefix)	Concatenate prefix string with panel items names.
+14)	add_suffix(suffix)	Concatenate suffix string with panel items names
+15)	append(other[, ignore_index, verify_integrity])	Append columns of other to end of this frame’s columns and index, returning a new object.
+16)	apply(func[, axis, broadcast, raw, reduce, args])	Applies function along input axis of DataFrame.
+17)	between_time(start_time, end_time[, ...])	Select values between particular times of the day (e.g., 9:00-9:30 AM)
+18)	combine(other, func[, fill_value, overwrite])	Add two DataFrame objects and do not propagate NaN values, so if for a
+19)	combineAdd(other)	Add two DataFrame objects and do not propagate
+20)	combine_first(other)	Combine two DataFrame objects and default to non-null values in frame
+21)	consolidate([inplace])	Compute NDFrame with “consolidated” internals (data of each dtype
+22)	convert_objects([convert_dates, ...])	Attempt to infer better dtype for object columns
+23)	count([axis, level, numeric_only])	Return Series with number of non-NA/null observations over requested
+24)	diff([periods])	1st discrete difference of object
+25)	filter([items, like, regex, axis])	Restrict the info axis to set of items or wildcard
+26)	from_records(data[, index, exclude, ...])	Convert structured or record ndarray to DataFrame
+27)	hist(data[, column, by, grid, xlabelsize, ...])	Draw histogram of the DataFrame’s series using matplotlib / pylab.
+28)	idxmax([axis, skipna])	Return index of first occurrence of maximum over requested axis.
+29)	idxmin([axis, skipna])	Return index of first occurrence of minimum over requested axis.
+30)	info([verbose, buf, max_cols])	Concise summary of a DataFrame.
+31)	insert(loc, column, value[, allow_duplicates])	Insert column into DataFrame at specified location.
+32)	interpolate([method, axis, limit, inplace, ...])	Interpolate values according to different methods.
+33)	join(other[, on, how, lsuffix, rsuffix, sort])	Join columns with other DataFrame either on index or on a key
+34)	max([axis, skipna, level, numeric_only])	This method returns the maximum of the values in the object.
+35)	min([axis, skipna, level, numeric_only])	This method returns the minimum of the values in the object.
+36)	plot([frame, x, y, subplots, sharex, ...])	Make line, bar, or scatter plots of DataFrame series with the index on the x-axis
+37)	reindex([index, columns])	Conform DataFrame to new index with optional filling logic, placing
+38)	sort([columns, column, axis, ascending, inplace])	Sort DataFrame either by labels (along either axis) or by the values in
+39)	sort_index([axis, by, ascending, inplace, kind])	Sort DataFrame either by labels (along either axis) or by the values in
+40)	squeeze()	squeeze length 1 dimensions
+41)	sum([axis, skipna, level, numeric_only])	Return the sum of the values for the requested axis
+42)	to_excel(excel_writer[, sheet_name, na_rep, ...])	Write DataFrame to a excel sheet
+43)	to_html([buf, columns, col_space, colSpace, ...])	Render a DataFrame as an HTML table.
+44)	to_period([freq, axis, copy])	Convert DataFrame from DatetimeIndex to PeriodIndex with desired
+45)	to_timestamp([freq, how, axis, copy])	Cast to DatetimeIndex of timestamps, at beginning of period
+Panel is container for 3-dimensional data. 
