@@ -5,39 +5,41 @@ from matplotlib import pyplot as plt
 from matplotlib import cm
 
 def selection_table(df):
-    tw=[]
-    l=[]
-    t=[]
+    a=[]
+    b=[]
+    c=[]
+    d=[]
     e=[]
-    df=df.fillna(0)
     
-    
+    df=df.fillna(0)  
     for i in df:
         s=0
-        l.append(i[0])
-        tw.append(i[1])
+        a.append(i[0])
+        b.append(i[1])
+        c.append(i[2])
     for col in df:
-        t.append(df[col].idxmax())
+        d.append(df[col].idxmax())
         e.append(sum(df[col]*df.index))
     
     exp = dis_Tset(e)
     
     df1 = pd.DataFrame()
-    df1['Twet'] = tw
-    df1['Load'] = l
-    df1['Tset'] = exp  ## t = Max Probability , exp = Expectaion
+    df1['Hour'] = a
+    df1['DayofWeek'] = b
+    df1['Twet'] = c
+    df1['Tset'] = exp  ## d = Max Probability , exp = Expectaion
     return df1
 
-def func_select(df,df2,column1,column2):    
+def func_select(df,df2,column1,column2,column3):    
     df1 = selection_table(df)
     df2['Default']=df2[column1+'_Dis'].astype(str) #Just creating a column 'Default'
     h=[]
     n=0
-    df1.to_csv('IndexTable.txt')
+    df1.to_csv('IndexTable.txt',sep='\t')
     for i in range(len(df2[column2])):
                    aux=0
                    for j in range(len(df1['Tset'])):
-                            if df2[column1+'_Dis'][i]==df1['Twet'][j] and df2[column2+'_Dis'][i]==df1['Load'][j] and df2['Twet'][i]<df1['Tset'][j]:
+                            if df2[column1+'_Dis'][i]==df1['Hour'][j] and df2[column2+'_Dis'][i]==df1['DayofWeek'][j] and df2[column3+'_Dis'][i]==df1['Twet'][j]and df2['Twet'][i]<df1['Tset'][j]:
                                 h.append(df1['Tset'][j])
                                 df2['Default'][i]='No'
                                 aux=1
@@ -63,6 +65,7 @@ def func_select(df,df2,column1,column2):
     df2['Tset_BN']=dis_Tset(df2['Tset_BN'])
     print 'Number of default points is: '+str(n)
     return df2
+
 
 def dis_Tset(h):
     cut = [15.11,15.61,16.61,17.61,18.61,19.61,20.61,21.61,22.61,23.61,24.61,25.61,26.61]

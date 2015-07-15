@@ -9,4 +9,7 @@ def func_error(df,name):
     #df.to_csv(name+'.txt',sep='\t')
     e = df['error'].sum()
     e = 100*(e/len(df['Tset']))#Sample Size
+    print e
     return e
+df=pd.read_table('outno_error.txt',sep='\t')
+func_error(df,'Bla')

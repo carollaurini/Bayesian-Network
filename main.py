@@ -26,36 +26,40 @@ def Procedure_Concat(fi):
         data.append(df_month)
     data = pd.concat(data, ignore_index=False, keys=filelist)
     #print data
+    data.to_csv('train.txt',sep='\t')
     return data
-
-def Procedure_Evaluate(data,errT,errL,number_case,c):
+def Procedure_Evaluate(cpd,data,errT,errL,number_case,c):
     rand = randon(data,errT,errL,c)
-    dis_rand=dis(rand,yt,yl,'Twet+Err','Load+Err')
-    print dis_rand
-    df_evaluation=func_select(cpd,dis_rand,'Twet+Err','Load+Err')
+    dis_rand=dis(rand,yt,yl,'Twet+Err','Load+Err','Hour','DayofWeek')
+    #print dis_rand
+    df_evaluation=func_select(cpd,dis_rand,'Hour','DayofWeek','Twet+Err')
     #ecase=func_error(df_evaluation,'Eval')
     #print 'The error for case '+str(number_case)+': '+str(ecase)
-    dis_rand.to_csv('case'+number_case+'.txt',sep = '\t')
+    dis_rand.to_csv('out'+number_case+'.txt',sep = '\t')
     #plot_err_curv(rand,errL,c,'Twet',24)
     
 #Discretization of Training Set
-#data = Procedure_Concat('Train.txt')
-data = pd.read_table('Out.txt',sep=' ')
-datatrain=dis(data,yt,yl,'Twet','Load')
+data = Procedure_Concat('Train.txt')
+datatrain=dis(data,yt,yl,'Twet','Load','Hour','DayofWeek')
+#print datatrain
 #datatrain.to_csv('Training.txt',sep='\t')
 
 #Discretization of Testing Set
 test = Procedure_Concat('Test.txt')
-datatest=dis(test,yt,yl,'Twet','Load')
+datatest=dis(test,yt,yl,'Twet','Load','Hour','DayofWeek')
 #datatest.to_csv('Testing.txt',sep='\t')
 
 #Procedure Training
-cpd = func_p_Tset(datatrain)
+
+#BN 1#
+#cpd = func_p_Tset1(datatrain)
 #print cpd
 
-##Procedure Evaluation
-Procedure_Evaluate(datatest,0,0,'no_error',0)
-#Procedure_Evaluate(datatest,1,0.2,'witherror',4)
-#Procedure_Evaluate(test,1,0.2,'2',0)
-#Procedure_Evaluate(test,1,0.1,'3',0)
-#Procedure_Evaluate(test,0,0,'4',0)
+#BN 2#
+cpd2 = func_p_Tset2(datatrain)
+##cpd2.to_csv('Table.txt', sep='\t')
+#print cpd2
+
+##
+####Procedure Evaluation
+Procedure_Evaluate(cpd2,datatest,0,0,'no_error',0)

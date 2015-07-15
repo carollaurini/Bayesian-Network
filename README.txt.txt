@@ -1,4 +1,4 @@
-https://github.com/carollaurini/Bayesian-Network.git
+cdhttps://github.com/carollaurini/Bayesian-Network.git
 …or create a new repository on the command line
 
 
@@ -18,7 +18,6 @@ git push -u origin master
 You can initialize this repository with code from a Subversion, Mercurial, or TFS project.
 
 cd desktop
-cd pesquisa
 cd BN
 git add .
 #git status
