@@ -1,12 +1,21 @@
 import pandas as pd
 import numpy as np
-import info
 
-def dis(month,yt,yl,column1,column2,column3,column4):
-    
-    month[column1+'_Dis'] = pd.cut(month[column1],yt, labels = range(len(yt)-1),right=False) 
-    month[column2+'_Dis'] = pd.cut(month[column2],yl, labels = range(len(yl)-1),right=False)
-    month[column3+'_Dis'] = month[column3]
-    month[column4+'_Dis']= month[column4]
-    
-    return month
+def dis(data,info,pa,c):
+    v=pa+c
+    if c[0]=='NaN':
+        v=pa
+    #print v
+    for i in range(len(v)):
+        if info[i][0]=='NaN':
+            data[v[i]+'_dis']=data[v[i]]
+        else:
+            x=[]
+            y=[]
+            x = np.append(np.arange(info[i][0],info[i][1]+info[i][2],info[i][2]),1000000000)
+            y = np.append(-100000000,x)
+            #print x
+            data[v[i]+'_dis'] = pd.cut(data[v[i]],y, labels = np.arange(info[i][0],info[i][1]+2*info[i][2],info[i][2]),right=False)
+    return data
+
+

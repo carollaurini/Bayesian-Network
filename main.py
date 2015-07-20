@@ -5,18 +5,29 @@ from Discretization.discretization import *
 from Training.training import *
 from Select.code8 import *
 from error.error import *
-#from Plot.plot import *
 from Randon.randon import *
-import info
 
-xt = np.append(np.arange(info.bT,info.eT+info.spT,info.spT),1000000000)
-yt = np.append(-100000000,xt)
-xl = np.append(np.arange(info.bL,info.eL+info.spL,info.spL),1000000000)
-yl = np.append(-100000000,xl)
+##Settings##
 
-print yl
-print yt
+# 1) Nodes 
+#pa=['Load','Twet']
+pa=['DayofWeek','Hour','Twet'] #Parent Nodes
+#c=['Tset']
+c=['Load'] #Child Node
 
+# 2) Method os extimation
+method='e' #Expectation (e) or Max probability (pmax)
+
+# 3) Discretization Setting
+#info =[[0,3000,50],[10.0,25.0,1.0],['NaN']]
+info=[['NaN'],['NaN'],[5,30.0,5.0],[0,3000,50]] #[[Begin,End,Step],...,[Begin,End,Step]]
+
+# 4)Name of the file out
+model ='model_3.2'
+
+############
+
+## Month Concatenation Function:
 def Procedure_Concat(fi):
     File = open(fi,'r')
     filelist = File.read().split('\n')  
@@ -25,41 +36,30 @@ def Procedure_Concat(fi):
         df_month = pd.read_table(month+'.txt',sep='\t')
         data.append(df_month)
     data = pd.concat(data, ignore_index=False, keys=filelist)
-    #print data
-    data.to_csv('train.txt',sep='\t')
+    #data.to_csv('train_data.txt',sep='\t')
     return data
-def Procedure_Evaluate(cpd,data,errT,errL,number_case,c):
-    rand = randon(data,errT,errL,c)
-    dis_rand=dis(rand,yt,yl,'Twet+Err','Load+Err','Hour','DayofWeek')
-    #print dis_rand
-    df_evaluation=func_select(cpd,dis_rand,'Hour','DayofWeek','Twet+Err')
-    #ecase=func_error(df_evaluation,'Eval')
-    #print 'The error for case '+str(number_case)+': '+str(ecase)
-    dis_rand.to_csv('out'+number_case+'.txt',sep = '\t')
-    #plot_err_curv(rand,errL,c,'Twet',24)
+
+#### Evaluation Function:
+def Procedure_Evaluate(cpd,data,method,model,c):  
+    df_evaluation=func_select(cpd,data,pa,c,method,info)
+    df_evaluation.to_csv('out'+model+'.txt',sep = '\t')
+    func_error(df_evaluation,c) #Root Square
+
     
-#Discretization of Training Set
+#### Discretization of Training Set
 data = Procedure_Concat('Train.txt')
-datatrain=dis(data,yt,yl,'Twet','Load','Hour','DayofWeek')
-#print datatrain
+datatrain=dis(data,info,pa,c)
+#print datatrain.head(20)
 #datatrain.to_csv('Training.txt',sep='\t')
 
-#Discretization of Testing Set
+#### Discretization of Testing Set
 test = Procedure_Concat('Test.txt')
-datatest=dis(test,yt,yl,'Twet','Load','Hour','DayofWeek')
+datatest=dis(test,info,pa,['NaN'])############
+#print datatest.head(20)
 #datatest.to_csv('Testing.txt',sep='\t')
 
-#Procedure Training
-
-#BN 1#
-#cpd = func_p_Tset1(datatrain)
+#### Procedure Training
+cpd = training(datatrain,pa,c)
 #print cpd
-
-#BN 2#
-cpd2 = func_p_Tset2(datatrain)
-##cpd2.to_csv('Table.txt', sep='\t')
-#print cpd2
-
-##
-####Procedure Evaluation
-Procedure_Evaluate(cpd2,datatest,0,0,'no_error',0)
+#### Procedure Evaluation
+Procedure_Evaluate(cpd,datatest,method,model,c)
